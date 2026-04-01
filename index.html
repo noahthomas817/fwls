@@ -334,14 +334,19 @@
   <!-- RULE CHANGES -->
   <section class="tab-panel" id="tab-rules">
     <h2 class="section-heading">Rule <span class="accent">Changes</span></h2>
-
+    
     <div class="subsection">
-      <div class="subsection-title">Current Scoring Settings</div>
+      <div class="subsection-title">Roster Settings</div>
       <div class="placeholder-block">Paste your current scoring settings here (passing TDs, rushing yards per point, PPR settings, etc.)</div>
     </div>
 
     <div class="subsection">
-      <div class="subsection-title">Change Log</div>
+      <div class="subsection-title">Scoring Settings</div>
+      <div class="placeholder-block">Paste your current scoring settings here (passing TDs, rushing yards per point, PPR settings, etc.)</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Amendment Log</div>
       <!-- DUPLICATE PER YEAR WITH CHANGES -->
       <div style="margin-bottom: 36px;">
         <div class="year-badge">[Year]</div>
@@ -410,7 +415,10 @@
   <section class="tab-panel" id="tab-keepers">
     <h2 class="section-heading">Keeper <span class="accent">Values</span></h2>
     <p style="color:var(--slate); font-size:13px; margin-bottom:32px; line-height:1.6;">
-      Keeper costs represent the draft round price to retain a player for the upcoming season. Deadline: [Date].
+      Keeper costs are calculated by an average of that player's ESPN auction value, calculated back one year for every consecutive year that the player is kept on an owner's roster.
+    </p>
+    <p style="color:var(--slate); font-size:13px; margin-bottom:32px; line-height:1.6;">
+      Each owner has $75 to spend to keep up to 4 (four) players. Unkept players are replaced by draft picks at the end of the draft.
     </p>
 
     <!-- KEEPER TABLE TEMPLATE — repeated per manager -->
@@ -429,7 +437,7 @@
     <div class="subsection">
       <div class="subsection-title">Max</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -437,7 +445,7 @@
     <div class="subsection">
       <div class="subsection-title">Noah</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -445,7 +453,7 @@
     <div class="subsection">
       <div class="subsection-title">Sam</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -453,7 +461,7 @@
     <div class="subsection">
       <div class="subsection-title">George</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -461,7 +469,7 @@
     <div class="subsection">
       <div class="subsection-title">Sergei</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -469,7 +477,7 @@
     <div class="subsection">
       <div class="subsection-title">Ben</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -477,7 +485,7 @@
     <div class="subsection">
       <div class="subsection-title">Silas</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -485,7 +493,7 @@
     <div class="subsection">
       <div class="subsection-title">Jonathan</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -493,7 +501,7 @@
     <div class="subsection">
       <div class="subsection-title">Jack</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -501,7 +509,7 @@
     <div class="subsection">
       <div class="subsection-title">Sandeep</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -509,7 +517,7 @@
     <div class="subsection">
       <div class="subsection-title">Alex</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
@@ -517,7 +525,7 @@
     <div class="subsection">
       <div class="subsection-title">Jedhi</div>
       <div class="keeper-table-wrapper"><table class="data-table">
-        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Years Kept><th>Keeper Cost</th></tr></thead>
         <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
       </table></div>
     </div>
