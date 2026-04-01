@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The League</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy:    #0d1f3c;
+      --royal:   #0e3d6e;
+      --cobalt:  #0068a5;
+      --slate:   #6b97b5;
+      --mist:    #c2d6e2;
+      --white:   #f0f6fa;
+      --gold:    #e8c44a;
+      --text:    #d0e6f2;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: relative;
+      background: linear-gradient(160deg, var(--navy) 0%, var(--royal) 60%, var(--cobalt) 100%);
+      padding: 60px 40px 40px;
+      overflow: hidden;
+      border-bottom: 2px solid var(--cobalt);
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 80% 50%, rgba(0,104,165,0.25) 0%, transparent 60%),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.03) 80px);
+    }
+
+    .header-inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+
+    .league-eyebrow {
+      font-weight: 600; font-size: 11px; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+    }
+
+    .league-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 10vw, 110px);
+      line-height: 0.9; letter-spacing: 2px; color: var(--white);
+      text-shadow: 0 4px 40px rgba(0,104,165,0.6);
+    }
+
+    .league-title span { color: var(--gold); }
+    .league-subtitle { margin-top: 16px; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--slate); }
+
+    .managers-strip { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .manager-chip {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px; padding: 4px 12px; font-size: 12px; letter-spacing: 1px;
+      color: var(--mist); transition: background 0.2s, color 0.2s;
+    }
+    .manager-chip:hover { background: rgba(0,104,165,0.4); color: var(--white); }
+
+    nav {
+      background: var(--royal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .tabs {
+      max-width: 1100px; margin: 0 auto; display: flex;
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      background: none; border: none; color: var(--slate);
+      font-family: 'Barlow', sans-serif; font-weight: 600;
+      font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+      padding: 18px 28px; cursor: pointer; position: relative;
+      white-space: nowrap; transition: color 0.2s;
+    }
+    .tab-btn::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px; background: var(--gold); transform: scaleX(0); transition: transform 0.2s;
+    }
+    .tab-btn:hover { color: var(--mist); }
+    .tab-btn.active { color: var(--white); }
+    .tab-btn.active::after { transform: scaleX(1); }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 48px 40px 80px; }
+
+    .tab-panel { display: none; animation: fadeUp 0.35s ease both; }
+    .tab-panel.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-heading {
+      font-family: 'Bebas Neue', sans-serif; font-size: 48px;
+      letter-spacing: 2px; color: var(--white);
+      border-bottom: 1px solid var(--cobalt); padding-bottom: 12px; margin-bottom: 32px;
+    }
+    .section-heading .accent { color: var(--gold); }
+
+    .placeholder-block {
+      background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.12);
+      border-radius: 4px; padding: 32px 28px; color: var(--slate);
+      font-size: 13px; font-style: italic; letter-spacing: 0.5px; line-height: 1.7;
+    }
+
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 32px; }
+
+    .card {
+      background: linear-gradient(135deg, rgba(14,61,110,0.6), rgba(0,104,165,0.2));
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; padding: 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: var(--cobalt); transform: translateY(-2px); }
+    .card-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .card-value { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--white); line-height: 1; }
+    .card-sub { margin-top: 6px; font-size: 12px; color: var(--slate); }
+
+    .data-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .data-table th {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+      text-align: left; padding: 10px 16px; border-bottom: 1px solid var(--cobalt);
+      background: rgba(0,0,0,0.2);
+    }
+    .data-table td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text); vertical-align: middle; }
+    .data-table tr:hover td { background: rgba(0,104,165,0.1); }
+    .data-table .rank { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--slate); width: 40px; }
+    .data-table .gold-rank { color: var(--gold); }
+
+    .subsection { margin-bottom: 48px; }
+    .subsection-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px;
+      color: var(--mist); margin-bottom: 16px; padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .year-badge {
+      display: inline-block; background: var(--cobalt); color: var(--white);
+      font-weight: 700; font-size: 11px; letter-spacing: 1px;
+      padding: 2px 10px; border-radius: 2px; margin-bottom: 10px;
+    }
+
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+      width: 1px; background: var(--cobalt);
+    }
+    .timeline-item { position: relative; margin-bottom: 40px; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -24px; top: 6px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--cobalt); border: 2px solid var(--navy);
+    }
+    .timeline-year { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); margin-bottom: 8px; }
+
+    .constitution-article {
+      margin-bottom: 36px; padding: 24px;
+      background: rgba(0,0,0,0.2); border-left: 3px solid var(--cobalt); border-radius: 0 4px 4px 0;
+    }
+    .article-number { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .article-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--white); margin-bottom: 10px; }
+
+    .keeper-table-wrapper { overflow-x: auto; border-radius: 4px; }
+    .keeper-cost { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--gold); }
+
+    .pill { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
+    .pill-qb { background: rgba(232,196,74,0.2); color: var(--gold); }
+    .pill-rb { background: rgba(0,104,165,0.35); color: #7ec8f5; }
+    .pill-wr { background: rgba(40,180,100,0.25); color: #6de0a4; }
+    .pill-te { background: rgba(200,80,80,0.25); color: #f5a0a0; }
+    .pill-k  { background: rgba(150,100,200,0.2); color: #c9aaee; }
+
+    .intro-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
+
+    .stat-block { text-align: center; padding: 20px; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; background: rgba(0,0,0,0.15); }
+    .stat-block .num { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--white); line-height: 1; }
+    .stat-block .lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--slate); margin-top: 4px; }
+
+    .rule-item { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; gap: 16px; align-items: flex-start; }
+    .rule-number { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--cobalt); min-width: 36px; line-height: 1; }
+    .rule-text { font-size: 14px; line-height: 1.7; }
+    .rule-text strong { color: var(--white); font-weight: 600; }
+
+    @media (max-width: 700px) {
+      .intro-stats { grid-template-columns: repeat(2,1fr); }
+      main { padding: 32px 20px 60px; }
+      header { padding: 40px 20px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="league-eyebrow">Fantasy Football · 12 Team League</div>
+    <div class="league-title">The<br /><span>League</span></div>
+    <div class="league-subtitle">Est. [Year] · Commissioners' Edition</div>
+    <div class="managers-strip">
+      <div class="manager-chip">Max</div>
+      <div class="manager-chip">Noah</div>
+      <div class="manager-chip">Sam</div>
+      <div class="manager-chip">George</div>
+      <div class="manager-chip">Sergei</div>
+      <div class="manager-chip">Ben</div>
+      <div class="manager-chip">Silas</div>
+      <div class="manager-chip">Jonathan</div>
+      <div class="manager-chip">Jack</div>
+      <div class="manager-chip">Sandeep</div>
+      <div class="manager-chip">Alex</div>
+      <div class="manager-chip">Jedhi</div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="history">League History</button>
+    <button class="tab-btn" data-tab="records">Record Books</button>
+    <button class="tab-btn" data-tab="rules">Rule Changes</button>
+    <button class="tab-btn" data-tab="constitution">Constitution</button>
+    <button class="tab-btn" data-tab="keepers">Keeper Values</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HISTORY -->
+  <section class="tab-panel active" id="tab-history">
+    <h2 class="section-heading">League <span class="accent">History</span></h2>
+    <div class="intro-stats">
+      <div class="stat-block"><div class="num">12</div><div class="lbl">Teams</div></div>
+      <div class="stat-block"><div class="num">—</div><div class="lbl">Seasons Played</div></div>
+      <div class="stat-block"><div class="num">—</div><div class="lbl">Total Trades</div></div>
+      <div class="stat-block"><div class="num">—</div><div class="lbl">Championships</div></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Season Champions</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Season</th><th>Champion</th><th>Runner-Up</th><th>Record</th><th>Points Scored</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- ADD ROWS HERE. Example:
+          <tr>
+            <td class="rank gold-rank">1</td>
+            <td>2024</td>
+            <td>Max</td>
+            <td>Noah</td>
+            <td>11-3</td>
+            <td>1,842.6</td>
+          </tr>
+          -->
+          <tr><td colspan="6"><div class="placeholder-block">Season champion rows go here.</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Season-by-Season Notes</div>
+      <div class="timeline">
+        <!-- DUPLICATE PER SEASON -->
+        <div class="timeline-item">
+          <div class="timeline-year">[Year]</div>
+          <div class="placeholder-block">Notable events, trades, controversies, and memorable moments from this season go here.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECORDS -->
+  <section class="tab-panel" id="tab-records">
+    <h2 class="section-heading">Record <span class="accent">Books</span></h2>
+
+    <div class="subsection">
+      <div class="subsection-title">All-Time Standings</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>#</th><th>Manager</th><th>Championships</th><th>Wins</th><th>Losses</th><th>Win %</th><th>Avg Pts/Game</th></tr>
+        </thead>
+        <tbody>
+          <!-- ADD ROWS HERE -->
+          <tr><td colspan="7"><div class="placeholder-block">All-time standings to be added.</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Single-Season Records</div>
+      <div class="card-grid">
+        <div class="card"><div class="card-label">Most Points in a Season</div><div class="card-value">—</div><div class="card-sub">[Manager] · [Year]</div></div>
+        <div class="card"><div class="card-label">Fewest Points in a Season</div><div class="card-value">—</div><div class="card-sub">[Manager] · [Year]</div></div>
+        <div class="card"><div class="card-label">Best Regular-Season Record</div><div class="card-value">—</div><div class="card-sub">[Manager] · [Year]</div></div>
+        <div class="card"><div class="card-label">Worst Regular-Season Record</div><div class="card-value">—</div><div class="card-sub">[Manager] · [Year]</div></div>
+        <div class="card"><div class="card-label">Highest Single-Week Score</div><div class="card-value">—</div><div class="card-sub">[Manager] · Wk [X] · [Year]</div></div>
+        <div class="card"><div class="card-label">Lowest Single-Week Score (Win)</div><div class="card-value">—</div><div class="card-sub">[Manager] · Wk [X] · [Year]</div></div>
+        <div class="card"><div class="card-label">Biggest Blowout Win</div><div class="card-value">—</div><div class="card-sub">[Manager] def. [Manager] +[X]</div></div>
+        <div class="card"><div class="card-label">Closest Game</div><div class="card-value">—</div><div class="card-sub">[Manager] def. [Manager] +[X]</div></div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Playoff Records</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>#</th><th>Manager</th><th>Appearances</th><th>Finals Appearances</th><th>Championships</th></tr>
+        </thead>
+        <tbody>
+          <!-- ADD ROWS HERE -->
+          <tr><td colspan="5"><div class="placeholder-block">Playoff history to be added.</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- RULE CHANGES -->
+  <section class="tab-panel" id="tab-rules">
+    <h2 class="section-heading">Rule <span class="accent">Changes</span></h2>
+
+    <div class="subsection">
+      <div class="subsection-title">Current Scoring Settings</div>
+      <div class="placeholder-block">Paste your current scoring settings here (passing TDs, rushing yards per point, PPR settings, etc.)</div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Change Log</div>
+      <!-- DUPLICATE PER YEAR WITH CHANGES -->
+      <div style="margin-bottom: 36px;">
+        <div class="year-badge">[Year]</div>
+        <div class="rule-item">
+          <div class="rule-number">01</div>
+          <div class="rule-text"><strong>[Rule changed]</strong> — description of what changed and why.</div>
+        </div>
+      </div>
+      <div class="placeholder-block">Rule change history to be added. Duplicate the year block above for each season.</div>
+    </div>
+  </section>
+
+  <!-- CONSTITUTION -->
+  <section class="tab-panel" id="tab-constitution">
+    <h2 class="section-heading">League <span class="accent">Constitution</span></h2>
+    <p style="color:var(--slate); font-size:13px; letter-spacing:1px; text-transform:uppercase; margin-bottom:40px;">Last Amended: [Date]</p>
+
+    <div class="constitution-article">
+      <div class="article-number">Article I</div>
+      <div class="article-title">League Structure</div>
+      <div class="placeholder-block">Number of teams, divisions (if any), roster size, starting lineup requirements, etc.</div>
+    </div>
+    <div class="constitution-article">
+      <div class="article-number">Article II</div>
+      <div class="article-title">The Draft</div>
+      <div class="placeholder-block">Draft format, order, timing, auction vs. snake rules, keeper rules, etc.</div>
+    </div>
+    <div class="constitution-article">
+      <div class="article-number">Article III</div>
+      <div class="article-title">Scoring</div>
+      <div class="placeholder-block">Full scoring breakdown — offensive, defensive, special teams, bonuses, etc.</div>
+    </div>
+    <div class="constitution-article">
+      <div class="article-number">Article IV</div>
+      <div class="article-title">Waivers &amp; Free Agency</div>
+      <div class="placeholder-block">Waiver type, processing day/time, FAAB budget (if applicable), priority rules, etc.</div>
+    </div>
+    <div class="constitution-article">
+      <div class="article-number">Article V</div>
+      <div class="article-title">Trades</div>
+      <div class="placeholder-block">Trade deadline, review process, veto rules, trade picks rules, etc.</div>
+    </div>
+    <div class="constitution-article">
+      <div class="article-number">Article VI</div>
+      <div class="article-title">Playoffs</div>
+      <div class="placeholder-block">Number of playoff teams, seeding rules, bye weeks, consolation bracket rules, etc.</div>
+    </div>
+    <div class="constitution-article">
+      <div class="article-number">Article VII</div>
+      <div class="article-title">Dues &amp; Payouts</div>
+      <div class="placeholder-block">Annual dues, payout structure, side bets, punishment for last place, etc.</div>
+    </div>
+    <div class="constitution-article">
+      <div class="article-number">Article VIII</div>
+      <div class="article-title">Commissioner Powers</div>
+      <div class="placeholder-block">Decision authority, dispute resolution process, succession policy, etc.</div>
+    </div>
+    <div class="constitution-article">
+      <div class="article-number">Article IX</div>
+      <div class="article-title">Keeper Rules</div>
+      <div class="placeholder-block">Number of keepers allowed, cost structure, eligibility rules, deadlines, etc.</div>
+    </div>
+  </section>
+
+  <!-- KEEPERS -->
+  <section class="tab-panel" id="tab-keepers">
+    <h2 class="section-heading">Keeper <span class="accent">Values</span></h2>
+    <p style="color:var(--slate); font-size:13px; margin-bottom:32px; line-height:1.6;">
+      Keeper costs represent the draft round price to retain a player for the upcoming season. Deadline: [Date].
+    </p>
+
+    <!-- KEEPER TABLE TEMPLATE — repeated per manager -->
+    <!-- pill classes: pill-qb pill-rb pill-wr pill-te pill-k -->
+    <!-- Example row:
+    <tr>
+      <td>Patrick Mahomes</td>
+      <td><span class="pill pill-qb">QB</span></td>
+      <td>KC</td>
+      <td>Rd 2</td>
+      <td class="keeper-cost">Rd 1</td>
+      <td>Yes</td>
+    </tr>
+    -->
+
+    <div class="subsection">
+      <div class="subsection-title">Max</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Noah</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Sam</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">George</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Sergei</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Ben</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Silas</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Jonathan</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Jack</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Sandeep</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Alex</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Jedhi</div>
+      <div class="keeper-table-wrapper"><table class="data-table">
+        <thead><tr><th>Player</th><th>Pos</th><th>NFL Team</th><th>Round Drafted</th><th>Keeper Cost</th><th>Eligible?</th></tr></thead>
+        <tbody><tr><td colspan="6"><div class="placeholder-block">Add keeper rows here.</div></td></tr></tbody>
+      </table></div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
